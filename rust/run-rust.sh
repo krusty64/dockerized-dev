@@ -12,5 +12,8 @@ if [ ! "$(docker ps -q -f name=rust-dev)" ]; then
         docker rm rust-dev
     fi
     # run your container
-    docker run -p 22222:22 -it --mount="type=bind,source=$HOME/src,destination=/home/dev/src" --name=rust-dev -d rust-dev 
+    docker run -p 22222:22 -it \
+	    --mount="type=bind,source=$HOME/src,destination=/home/dev/src" \
+	    --mount="type=bind,source=$HOME/.gitconfig,destination=/home/dev/.gitconfig,readonly" \
+	    --name=rust-dev -d rust-dev 
 fi
