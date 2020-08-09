@@ -24,6 +24,14 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 # Libraries needed to run vscode (even headless)
 RUN apt-get -y install sudo libx11-xcb1 libasound2
 
+# Add cargo to the PATH
+RUN echo 'PATH="/usr/local/cargo/bin:$PATH"' >> /etc/profile
+
+# Set the environment critical to run rustc/rustup/cargo
+RUN echo export CARGO_HOME="/usr/local/cargo" >> /etc/profile
+RUN echo export RUSTUP_HOME="/usr/local/rustup" >> /etc/profile
+RUN echo export RUST_VERSION="${RUST_VERSION}" >> /etc/profile
+
 # Create a 'dev' user (same password) as vscode doesn't like to run as root.
 RUN useradd -G sudo,man,users,ssh -ms /bin/bash dev 
 RUN echo 'dev:dev' | chpasswd
